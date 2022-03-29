@@ -62,9 +62,6 @@ $route['file/(:num)/(:num)/(:any)'] = 'file/index/$1/$2/$3';
 // To download ECU files
 $route['ecufile/(:num)/(:num)'] = 'ecufile/index/$1/$2';
 
-// To download ticket ECU files
-$route['ecuticketfile/(:num)/(:num)'] = 'ecuticketfile/index/$1/$2';
-
 /***** Starting here are URI Routes to make URLs easier *****/
 $route['ticket/(:any)/new-reply'] = 'ticket/new-reply/$1';											// Controller: Ticket    -    Function: new_reply
 $route['ticket/(:any)/rate'] = 'ticket/rate/$1';													// Controller: Ticket    -    Function: rate
@@ -140,8 +137,12 @@ $route['panel/admin/ecm-settings'] = 'admin-panel/ecm-settings';									// Cont
 $route['panel/admin/ecm-settings/action'] = 'admin-panel/ecm-settings-action';					// Controller: Admin_panel     -    Function: ecu_settings_action
 
 $route['panel/all-files'] = 'panel/all-files';
+$route['panel/file-download/(:any)'] = 'panel/file-download/$1';
+
 $route['panel/all-news'] = 'panel/all-news';
 $route['panel/all-customers'] = 'panel/all-customers';
+$route['panel/all-users'] = 'panel/all-users';
+$route['panel/new-user'] = 'panel/new-user';
 $route['panel/customer/(:num)'] = 'panel/view-customer/$1';								    // Controller: panel     -    Function: view_customer
 //$route['panel/customer/(:num)/edit'] = 'panel/edit-customer/$1';								// Controller: panel     -    Function: edit_customer
 //$route['panel/customer/(:num)/edit/action'] = 'panel/edit-customer-action/$1';					// Controller: panel     -    Function: edit_customer_action
@@ -195,11 +196,10 @@ $route['panel/admin/desktop-user/(:num)/edit'] = 'admin-panel/edit-desktop-users
 
 
 $route['api/verify-credentials'] = 'api/verify-credentials'; 
-$route['api/send-push-notification'] = 'api/send-push-notification'; 
 
 $route['panel/admin/all-ecu-files'] = 'admin-panel/all-ecu-files';                                          // Controller: Admin_panel     -    Function: all_ecu_files
 $route['panel/admin/ecu-file/(:num)'] = 'admin-panel/ecu-file/$1';											// Controller: Admin_panel     -    Function: ecu_file
-											// Controller: Admin_panel     -    Function: ecu_file
+
 
 $route['panel/admin/all-desktop-news'] = 'admin-panel/all-desktop-news';											// Controller: Admin_panel     -    Function: all_desktop_news
 $route['panel/admin/new-desktop-news'] = 'admin-panel/new-desktop-news';                                            // Controller: Admin_panel     -    Function: new_desktop_news

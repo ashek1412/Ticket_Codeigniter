@@ -141,6 +141,14 @@ class Customer_model extends CI_Model {
         return $row->c;
     }
 
+
+	public function count_all_users_exp($userid) {
+		$sql = "SELECT COUNT(*) as c FROM `tickerr_users`";
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->c;
+	}
+
 	
 
 

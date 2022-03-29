@@ -39,12 +39,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     'width' => '78%',
                                     'title' => 'File'
                                 ),
-
                                 array(
                                     'c' => 3,
                                     'width' => '5%',
                                     'title' => 'View'
-                                ),
+                                ),                            
 
                                 array(
                                     'c' => 3,
@@ -96,12 +95,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $c=1;
                         if($all_files_count>0) {
                             foreach ($all_files as $row) {
+
+                                $fname=$row['name'];
+                                $url="";
+                                if (strpos($row['path'], 'magic') !== false) {
+                                    $url=base_url()."panel/file-download/".$fname;                                    
+                                }
+                                else
+                                {
+                                        $url="https://s10.z100.vip:30746".$row['path'];   
+                                        $row['path'] =$row['fpath'];
+
+                                }
+
+                              //  var_dump($row);
                                 ?>
                                 <tr>
-                                    <td><?php echo $c++; ?></td>
-                                    <td><?php echo str_replace('/tickerr/downloads/','',$row['name']); ?></td>
-                                    <td><a href="<?php echo $row['name'];?>" target="_blank">View </a></td>
-                                    <td><a href="<?php echo $row['name']; ?> "  download>Download</a></td>
+                                    <td><?php echo  $c++; ?></td>
+                                    <td><?php echo str_replace('/magic/downloads/','',$row['path']); ?></td>
+                                     <td>                                     
+                                     <?php  if (strpos($fname, 'pdf') !== false) {
+                                         ?>
+                                     <a href="<?php echo $url; ?>" > View</a>
+                                     <?php } ?>
+                                     
+                                     </td>
+                                    <td><a href="<?=$url?>" target="_blank">Download </a></td>
                                     <td><?php echo  $row['size']." KB"; ?></td>
 
                                 </tr>

@@ -3,14 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 	<div class="content">
 		<div class="page-title-cont clearfix">
-			<h3>All Desktop Users</h3>
+			<h3>All Users</h3>
 		</div>
 		
 		<div class="row">
 			<div class="col margin-top col-sm-12">
 				<div class="cont clearfix">
 					<div class="head clearfix">
-						<h4 class="pull-left">List of all Desktop Users</h4>
+						<h4 class="pull-left">List of all users</h4>
 						
 						<div class="pull-right">
 							<div class="clearfix">
@@ -19,9 +19,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<input type="text" name="search" placeholder="Enter search query and press enter" <?php if(isset($_GET['search'])) echo 'value="'.$_GET['search'].'"'; ?>/>
 									</form>
 								</div>
-						<!--								<div class="pull-right">-->
-<!--									<button class="btn btn-green besides-search" name="drop" data-drop="new-user">New User</button>-->
-<!--								</div>-->
+								<div class="pull-right">
+									<button class="btn btn-green besides-search" name="drop" data-drop="new-user">New User</button>
+								</div>
 							</div><?php
 							if($username_error || $email_error)
 								echo '<div class="dropdwn clearfix" name="dropdwn-new-user" style="display:block;">';
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								echo '<p class="bg-danger" style="margin-top:-5px; display:none"></p>';
 							?>
 								
-								<form method="post" action="<?php echo $base_url; ?>panel/admin/new-user" name="new-user">
+								<form method="post" action="<?php echo $base_url; ?>panel/new-user" name="new-user">
 									<label id="username">Name</label>
 									<input type="text" name="user-name" placeholder="User name" value="<?php echo $_POST['user-name']; ?>" />
 									<br />
@@ -76,19 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<input type="password" name="user-rpassword" placeholder="Repeat password" />
 									<br /><br />
 									
-									<label id="user-role">Role</label>
-									<div class="radio">
-										<input type="radio" name="user-role" id="user-role1" class="blue" value="1"<?php if($_POST['user-role'] == '1') echo ' checked'; ?> />
-										<label for="user-role1">Client</label>
-									</div>
-									<div class="radio">
-										<input type="radio" name="user-role" id="user-role2" class="blue" value="2"<?php if($_POST['user-role'] == '2') echo ' checked'; ?> />
-										<label for="user-role2">Agent</label>
-									</div>
-									<div class="radio">
-										<input type="radio" name="user-role" id="user-role3" class="blue" value="3"<?php if($_POST['user-role'] == '3') echo ' checked'; ?> />
-										<label for="user-role3">Admin</label>
-									</div>
+
 									
 									<input type="hidden" name="from" value="all-users" />
 									
@@ -121,17 +109,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								array(
 									'c' => 4,
 									'width' => '15%',
-									'title' => 'Company'
+									'title' => 'Role'
 								),
 								array(
 									'c' => 5,
 									'width' => '20%',
-									'title' => 'email'
+									'title' => 'Member Since'
 								),
                                 array(
                                     'c' => 5,
                                     'width' => '20%',
-                                    'title' => 'Phone'
+                                    'title' => 'Expires On'
                                 )
 							);
 							
@@ -150,11 +138,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										$arrow = '<i class="fa fa-sort-up"></i>';
 										$direction = 'd';
 									}
-									echo '<th width="'.$sorted['width'].'" data-sort="'.$base_url . 'panel/admin/all-desktop-users/?sort='.$sorted['c'].'&w='.$direction.$s.'">';
+									echo '<th width="'.$sorted['width'].'" data-sort="'.$base_url . 'panel/admin/all-users/?sort='.$sorted['c'].'&w='.$direction.$s.'">';
 									echo '<i class="fa fa-sort hid"></i>'.$arrow.$sorted['title'];
 									echo '</th>';
 								}else{
-									echo '<th width="'.$sorted['width'].'" data-sort="'.$base_url . 'panel/admin/all-desktop-users/?sort='.$sorted['c'].'&w=d'.$s.'">';
+									echo '<th width="'.$sorted['width'].'" data-sort="'.$base_url . 'panel/admin/all-users/?sort='.$sorted['c'].'&w=d'.$s.'">';
 									echo '<i class="fa fa-sort"></i>'.$sorted['title'];
 									echo '</th>';
 								}
@@ -168,27 +156,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php
 							foreach($all_users->result() as $row) {
 							?>
-							<tr >
-								<td><?php echo $row->id; ?></td>							
-								<td><?php echo $row->name; ?></td>
-								<td><?php echo $row->username; ?></td>
-								<td><?php echo $row->company; ?></td>
-							
-                               <td><?php echo $row->email; ?></td>
-							   	<td><?php echo $row->phone; ?></td>
-								<td>
+							<tr data-href="<?php echo $base_url . 'panel/user/' . $row->id; ?>">
+								<td><?php echo $row->id; ?></td>
 								<?php
-					//									if($row->id != $user_info->id) {
-//										if($row->role == '1')
-//											echo '<a href="'.$base_url.'panel/admin/user/'.$row->id.'/delete" title="Delete user" name="delete-client"><i class="fa fa-close"></i></a>';
-//										elseif($row->role == '2')
-//											echo '<a href="'.$base_url.'panel/admin/user/'.$row->id.'/delete" title="Delete user" name="delete-agent"><i class="fa fa-close"></i></a>';
-//										else
-//											echo '<a href="'.$base_url.'panel/admin/user/'.$row->id.'/delete" title="Delete user" name="delete-admin"><i class="fa fa-close"></i></a>';
-//									}
+								if($row->id == $user_info->id)
+									echo '<td><strong>'.$row->name.' (you)</strong></td>';
+								else
+									echo '<td>'.$row->name.'</td>';
+								?>
+								<td><?php echo $row->username; ?></td>
+								<td>
+									<?php
+									if($row->role == '1')
+										echo 'Client';
+									elseif($row->role == '2')
+										echo 'Agent';
+									else
+										echo 'Admin';
 									?>
-	<a href="<?php echo $base_url; ?>panel/admin/desktop-user/<?php echo $row->id; ?>/edit" title="Edit user" name="edit-user"><i class="fa fa-pencil"></i></a>
-
+								</td>
+								<td>
+									<?php echo date('M jS, Y \a\t H:i:s', strtotime($row->date)); ?>
+								</td>
+                                <td>
+                                    <?php echo date('Y-M-d', strtotime($row->exp_date)); ?>
+                                </td>
+								<td>
+									<?php
+									if($row->id != $user_info->id) {
+										if($row->role == '1')
+											echo '<a href="'.$base_url.'panel/admin/user/'.$row->id.'/delete" title="Delete user" name="delete-client"><i class="fa fa-close"></i></a>';
+										elseif($row->role == '2')
+											echo '<a href="'.$base_url.'panel/admin/user/'.$row->id.'/delete" title="Delete user" name="delete-agent"><i class="fa fa-close"></i></a>';
+										else
+											echo '<a href="'.$base_url.'panel/admin/user/'.$row->id.'/delete" title="Delete user" name="delete-admin"><i class="fa fa-close"></i></a>';
+									}
+									?>
+									<a href="<?php echo $base_url; ?>panel/admin/user/<?php echo $row->id; ?>/edit" title="Edit user" name="edit-user"><i class="fa fa-pencil"></i></a>
 								</td>
 							</tr>
 							<?php
@@ -199,7 +203,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 					<div id="pagination">
 						<?php
-						
 						// If is set a sort..
 						if(isset($_GET['sort']) && $_GET['sort'] != '' && isset($_GET['w']) && $_GET['w'] != '')
 							$srt = '&sort='.$_GET['sort'].'&w='.$_GET['w'];
@@ -208,15 +211,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						if($page > 1) {
 							if(isset($_GET['search']))
-								echo '<a href="' . $base_url . 'panel/admin/all-desktop-users/?page=' . ($page-1) . '&search='.$_GET['search'].$srt.'" class="prev"><i class="fa fa-caret-left"></i></a>';
+								echo '<a href="' . $base_url . 'panel/admin/all-users/?page=' . ($page-1) . '&search='.$_GET['search'].$srt.'" class="prev"><i class="fa fa-caret-left"></i></a>';
 							else
-								echo '<a href="' . $base_url . 'panel/admin/all-desktop-users/?page=' . ($page-1) . $srt .'" class="prev"><i class="fa fa-caret-left"></i></a>';
+								echo '<a href="' . $base_url . 'panel/admin/all-users/?page=' . ($page-1) . $srt .'" class="prev"><i class="fa fa-caret-left"></i></a>';
 						}
 						if($total_pages > $page) {
 							if(isset($_GET['search']))
-								echo '<a href="' . $base_url . 'panel/admin/all-desktop-users/?page=' . ($page+1) . '&search='.$_GET['search'].$srt.'" class="next"><i class="fa fa-caret-right"></i></a>';
+								echo '<a href="' . $base_url . 'panel/admin/all-users/?page=' . ($page+1) . '&search='.$_GET['search'].$srt.'" class="next"><i class="fa fa-caret-right"></i></a>';
 							else
-								echo '<a href="' . $base_url . 'panel/admin/all-desktop-users/?page=' . ($page+1) . $srt .'" class="next"><i class="fa fa-caret-right"></i></a>';
+								echo '<a href="' . $base_url . 'panel/admin/all-users/?page=' . ($page+1) . $srt .'" class="next"><i class="fa fa-caret-right"></i></a>';
 						}
 						?>
 					</div>
